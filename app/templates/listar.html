@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+    <h2>Lista de Usuários</h2>
+    <ul>
+        {% for usuario in usuarios %}
+            <li>
+                {{ usuario.username }} - {{ usuario.email }} - 
+                <a href="{{ url_for('editar', id=usuario.id) }}">Editar</a> -
+                <a href="{{ url_for('remover', id=usuario.id) }}">Remover</a>
+            </li>
+        {% else %}
+            <li>Nenhum usuário cadastrado</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

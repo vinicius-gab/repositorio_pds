@@ -1,0 +1,139 @@
+from app import app
+from flask import render_template, redirect, flash, request
+from app.forms.login_form import LoginForm
+<<<<<<< HEAD
+from app.forms.cadastro_usuario_form import UsuarioForm
+from app.forms.buscar_form import BuscarUsuarioForm
+from app.services.AuthenticationService import AuthenticationService
+from app.services.UsuarioService import UsuarioService
+
+
+=======
+from app.forms.cadastro import CadastroForm
+from app.controllers.AuthenticationControllers import AuthenticationController
+from  app import db
+from app.models import Usuario
+>>>>>>> b25a6837451576e384a6d86b0372eb1612f8723f
+@app.route("/")
+def home():
+    usuario = {
+        "nome": "Leo",
+        "produtos": ["Banana", "Abacaxi", "Melancia"]
+    }
+    esta_logado = True
+    return render_template("index.html", 
+                           pessoa = usuario, 
+                           usuario_logado = esta_logado)
+
+@app.route("/sobre")
+def sobre():
+    return "Página Sobre"
+
+@app.route("/index2")
+def index2():
+    return render_template('index2.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    formulario = LoginForm()
+    if formulario.validate_on_submit():
+        if AuthenticationService.login(formulario):
+            flash("Login efetuado com sucesso!")
+            return redirect('/')
+        else:
+            flash("Erro nas credenciais.")
+            return redirect('/login')
+    return render_template('login.html', title='Login', form=formulario)
+
+<<<<<<< HEAD
+
+@app.route('/cadastrar', methods=['GET', 'POST'])
+def cadastrar():
+    formulario = UsuarioForm()
+    if formulario.validate_on_submit():
+        sucesso = UsuarioService.salvar(formulario)
+        if sucesso:
+            flash("Usuário cadastrado com sucesso!", category = "success")
+            return redirect("/")
+        else:
+            flash("Erro ao cadastrar o novo usuário!", category = "error")
+            return render_template("cadastro.html", form=formulario)
+    return render_template("cadastro.html", form=formulario, title="Cadastro de Usuário")
+    
+@app.route("/listar", methods=['GET'])
+def listar():
+    lista_usuarios = UsuarioService.listar()
+    return render_template("listar.html", usuarios = lista_usuarios)
+
+@app.route("/listar_com_filtro", methods=['GET'])
+def listar_com_filtro():
+    usuario = UsuarioService.listar_com_filtro()
+    print(usuario.id, usuario.username, usuario.email)
+    return render_template("index.html")
+
+
+@app.route("/editar/<int:id>", methods=['GET','POST'])
+def editar(id):
+    usuario = UsuarioService.buscar_por_id(id)
+    
+    formulario = UsuarioForm(obj=usuario)
+    if formulario.validate_on_submit():
+        sucesso = UsuarioService.atualizar(usuario, formulario)
+        if sucesso:
+            flash("Usuário atualizado com sucesso!", category = "success")
+            return redirect("/")
+        else:
+            flash("Erro ao atualizar o usuário!", category = "error")
+            return render_template("cadastro.html", form=formulario, editar=True)
+    return render_template("cadastro.html", 
+                           form=formulario, 
+                           title="Cadastro de Usuário",
+                           editar=True)
+
+
+@app.route("/remover/<int:id>", methods=['GET'])
+def remover(id):
+    usuario = UsuarioService.buscar_por_id(id)
+    if usuario:
+        removeu = UsuarioService.remover(usuario)
+        if removeu:
+            flash("Usuário removido com sucesso!", category="success")
+        else:
+            flash("Erro ao remover usuário.", category="error")
+    else:
+        flash("Usuário não encontrado.", category="error")
+    return render_template("index.html")
+
+@app.route("/buscar", methods=['GET', 'POST'])
+def buscar():
+    formulario = BuscarUsuarioForm()
+    if formulario.validate_on_submit():
+        usuario = UsuarioService.buscar_por_email(formulario.email.data)
+        print(usuario.id, usuario.username, usuario.email)
+        usuario.email = "leo@email.com"
+        UsuarioService.atualizar(usuario)
+        
+        usuario = UsuarioService.buscar_por_id(usuario.id)
+        print(usuario.id, usuario.username, usuario.email)
+        
+        return render_template("index.html")
+    return render_template("buscar_usuario.html", form=formulario)
+=======
+@app.route('/cadastro', methods=['GET', 'POST'])
+def cadastro():
+    formulario = CadastroForm()
+    if formulario.validate_on_submit():
+        if AuthenticationController.cadastro(formulario):
+            flash("cadastro efetuado com sucesso!")
+            return redirect('/')
+        else:
+            flash("Erro nas credenciais.")
+            return redirect('/cadastro')
+    return render_template('formulario.html', title='cadastro', form=formulario)
+
+@app.route('/inserir')
+def inserir():
+    
+    return "deu certo"
+>>>>>>> b25a6837451576e384a6d86b0372eb1612f8723f

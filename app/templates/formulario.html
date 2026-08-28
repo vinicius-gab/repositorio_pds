@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+    <h1> Inserir Usuário</h1>
+        <form action="cadstro" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }} <br/>
+            {{ form.username(size=32) }} <br/>
+
+        </p>
+        <p>
+            {{ form.password.label }} <br/>
+            {{ form.password(size=32) }} <br/>
+        </p>
+       <p>
+            {{ form.email.label }} <br/>
+            {{ form.email(size=32) }} <br/>
+        </p>
+        <p>{{ form.submit() }}</p>
+        
+    </form>
+
+{% endblock %}

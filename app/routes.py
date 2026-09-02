@@ -1,19 +1,12 @@
 from app import app
 from flask import render_template, redirect, flash, request
 from app.forms.login_form import LoginForm
-<<<<<<< HEAD
 from app.forms.cadastro_usuario_form import UsuarioForm
 from app.forms.buscar_form import BuscarUsuarioForm
 from app.services.AuthenticationService import AuthenticationService
 from app.services.UsuarioService import UsuarioService
 
 
-=======
-from app.forms.cadastro import CadastroForm
-from app.controllers.AuthenticationControllers import AuthenticationController
-from  app import db
-from app.models import Usuario
->>>>>>> b25a6837451576e384a6d86b0372eb1612f8723f
 @app.route("/")
 def home():
     usuario = {
@@ -46,7 +39,6 @@ def login():
             return redirect('/login')
     return render_template('login.html', title='Login', form=formulario)
 
-<<<<<<< HEAD
 
 @app.route('/cadastrar', methods=['GET', 'POST'])
 def cadastrar():
@@ -119,21 +111,3 @@ def buscar():
         
         return render_template("index.html")
     return render_template("buscar_usuario.html", form=formulario)
-=======
-@app.route('/cadastro', methods=['GET', 'POST'])
-def cadastro():
-    formulario = CadastroForm()
-    if formulario.validate_on_submit():
-        if AuthenticationController.cadastro(formulario):
-            flash("cadastro efetuado com sucesso!")
-            return redirect('/')
-        else:
-            flash("Erro nas credenciais.")
-            return redirect('/cadastro')
-    return render_template('formulario.html', title='cadastro', form=formulario)
-
-@app.route('/inserir')
-def inserir():
-    
-    return "deu certo"
->>>>>>> b25a6837451576e384a6d86b0372eb1612f8723f
